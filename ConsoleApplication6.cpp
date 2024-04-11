@@ -11,7 +11,6 @@ const double MAX_REAL = 1.0;
 const double MIN_IMAGINARY = -1.5;
 const double MAX_IMAGINARY = 1.5;
 const int MAX_ITERATIONS = 1000;
-
 Vec3b getColor(int iterations) 
 {
     if (iterations == MAX_ITERATIONS) 
@@ -87,28 +86,27 @@ bool isInMandelbrotSet(double real, double imaginary)
     return true; 
 }
 
-int main(int argc, char** argv) {
+int main(int argc, char** argv) 
+{
     MPI_Init(&argc, &argv);
-
     int rank, size;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &size);
-
     Mat image(HEIGHT, WIDTH, CV_8UC3);
-
     double real, imaginary;
     bool inMandelbrotSet;
-
     int startRow = rank * (HEIGHT / size);
     int endRow = (rank + 1) * (HEIGHT / size);
-
-    for (int i = startRow; i < endRow; ++i) {
-        for (int j = 0; j < WIDTH; ++j) {
+    for (int i = startRow; i < endRow; ++i) 
+    {
+        for (int j = 0; j < WIDTH; ++j) 
+        {
             real = MIN_REAL + j * (MAX_REAL - MIN_REAL) / (WIDTH - 1);
             imaginary = MIN_IMAGINARY + i * (MAX_IMAGINARY - MIN_IMAGINARY) / (HEIGHT - 1);
             inMandelbrotSet = isInMandelbrotSet(real, imaginary);
             Vec3b color;
-            if (inMandelbrotSet) {
+            if (inMandelbrotSet) 
+            {
                 color = getColor(MAX_ITERATIONS); 
             }
             else 
@@ -118,7 +116,6 @@ int main(int argc, char** argv) {
                 double zImaginary = 0.0;
                 double cReal = real;
                 double cImaginary = imaginary;
-
                 for (; iterations < MAX_ITERATIONS; ++iterations) 
                 {
                     double zRealTemp = zReal * zReal - zImaginary * zImaginary + cReal;
